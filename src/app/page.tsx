@@ -1,95 +1,249 @@
+"use client"
 import Image from "next/image";
-import styles from "./page.module.css";
+import "./index.css";
+import {ChangeEvent, useState} from "react"
+import { toast } from "react-toastify";
+import Link from "next/link";
+import * as EmailValidator from 'email-validator';
 
-export default function Home() {
+
+
+const Home: React.FC = () => {
+
+  const [loading, setLoading] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>("")
+  const [status, setStatus] = useState<Response | null>(null)
+
+  const handleNotification = async (): Promise<void> => {
+    setLoading(true);
+    const validateEmail = EmailValidator.validate(email);
+    
+    if (validateEmail) {
+
+      const isMailSent = await sendMail();
+      
+      setLoading(false);
+      if (isMailSent) {
+        toast.success("Notificação enviada com sucesso!");
+      } else {
+        if(status?.status === 409) {
+
+          toast.error("Email Já Esta Recebendo Novidades!");
+          
+        }else {
+          toast.error("Erro ao enviar o e-mail. Tente novamente mais tarde.");
+        }
+        
+      }
+    } else {
+      setLoading(false);
+      toast.error("E-mail inválido. Tente novamente.");
+    }
+  };
+
+  const sendMail = async (): Promise<boolean> => {
+    try {
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+
+      setStatus(response)
+      if (response.ok) {
+        console.log("Email enviado com sucesso");
+        setEmail("")
+        return true;
+      } else {
+        console.log("Falha ao enviar o email");
+        setEmail("")
+        return false;
+      }
+    } catch (err) {
+      
+      console.error("Erro ao enviar o email:", err);
+      setEmail("")
+      return false;
+    }
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      <div className="container-main">
+        <section className="section-main">
+          <article className="article-text">
+            <h1>Promoção Incrível</h1>
+            <p>
+              Quer se tornar um grande jogador como esses 3 ? Venha para a
+              FutSchool e torne-se um grande jogador com os melhores
+              treinadores, equipes profissionais.
+              <br />
+              Dispute torneios de alto nível e torne-se um jogador renomado.{" "}
+              <span>
+                Assine um contrato agora mesmo e garanta benefícios exclusivos!
+              </span>
+            </p>
+
+            <div className="article-text-values">
+              <h2 style={{ color: "rgb(255, 5, 5)" }}>
+                {" "}
+                <del>DE R$ 799,99 (MENSAL)</del>{" "}
+              </h2>
+              <h2>POR APENAS</h2>
+              <h2 style={{ color: "rgb(3, 182, 3)" }}>R$ 200,00 (MENSAL)</h2>
+
+              <Link href="/price">
+                <button>ADQUIRA AGORA MESMO</button>
+              </Link>
+            </div>
+          </article>
+
+          <article className="article-image">
             <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              width={1000}
+              height={1000}
+              objectFit="cover"
+              style={{
+                width: "120%",
+                minWidth: "300px",
+                height: "auto",
+                marginTop: "-50px",
+                marginLeft: "-60px",
+              }}
+              src="/capafut.png"
+              alt="Capa Goats"
             />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+            <div>
+              <p>QUER RECEBER NOVIDADES ?</p>
+              <input onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} value={email} type="text" placeholder="Digite Seu Email" />
+              <button onClick={handleNotification}>{!loading ? "ENVIAR" : <div style={{margin: "0 auto"}} className="spinner"></div> } </button>
+            </div>
+          </article>
+        </section>
+      </div>
+
+      <div className="container-about">
+        <section className="section-about">
+          <article className="article">
+            <div className="article-text">
+              <h2>Otimos Campos</h2>
+              <p>
+                Por isso somos os melhores! Na FutSchool, entendemos a
+                importância de oferecer instalações de alta qualidade para o seu
+                treino profissional de futebol. Nossos campos são cuidadosamente
+                mantidos, proporcionando um ambiente propício para o
+                aprimoramento das suas habilidades. Venha fazer parte da
+                excelência em treinamento esportivo e alcance o seu máximo
+                desempenho conosco.
+              </p>
+            </div>
+
+            <div className="article-img">
+              <Image
+                width={1000}
+                height={1000}
+                objectFit="cover"
+                style={{
+                  width: "86%",
+                  height: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: "40px",
+                  marginTop: "20px",
+                }}
+                src="/quadra.jpg"
+                alt="Quadra"
+              />
+            </div>
+          </article>
+        </section>
+
+        <hr />
+
+        <section className="section-about">
+          <article className="article">
+            <div className="article-img">
+              <Image
+                width={1000}
+                height={1000}
+                objectFit="cover"
+                style={{
+                  width: "86%",
+                  height: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: "40px",
+                  marginTop: "20px",
+                }}
+                src="/treino.jpg"
+                alt="Treino"
+              />
+            </div>
+
+            <div className="article-text">
+              <h2 style={{ marginTop: "20px" }}>Melhores Treinos</h2>
+              <p>
+                Na FutSchool, comprometemo-nos a oferecer os melhores treinos
+                para impulsionar o seu desempenho no futebol. Nossos programas
+                são desenvolvidos por treinadores experientes e apaixonados,
+                visando aprimorar não apenas suas habilidades técnicas, mas
+                também sua resistência, estratégias de jogo e mentalidade
+                esportiva.
+              </p>
+            </div>
+          </article>
+        </section>
+
+        <hr />
+
+        <section className="section-about">
+          <article className="article">
+            <div className="article-text">
+              <h2>EstrelaBet</h2>
+              <p>
+                Orgulhosos da parceria com a EstrelaBet! Na FutSchool,
+                oferecemos treinos de alta qualidade e vantagens exclusivas para
+                nossos atletas, com apoio da EstrelaBet. Juntos, elevamos o
+                futebol a um novo nível. Junte-se a nós e experimente a emoção
+                do jogo com benefícios especiais!
+              </p>
+            </div>
+
+            <div className="article-img">
+              <Image
+                width={1000}
+                height={1000}
+                objectFit="cover"
+                style={{
+                  width: "86%",
+                  height: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: "40px",
+                  marginTop: "20px",
+                }}
+                src="/estrelabet.jpg"
+                alt="Estrela Bet"
+              />
+            </div>
+          </article>
+        </section>
+        
+        <hr />
+        
+      </div>
+
+
+    </>
   );
-}
+};
+
+export default Home;

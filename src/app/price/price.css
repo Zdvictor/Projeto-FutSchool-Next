@@ -1,0 +1,144 @@
+section.section-price {
+    width: 100%;
+    min-height: 100vh; /* Garante que a altura mínima seja a tela cheia */
+    background-color: #ffc107;
+    padding-top: 40px;
+    padding-bottom: 40px; /* Adiciona um pouco de espaço extra no fundo */
+}
+
+div.container-price {
+    width: 80%;
+    margin: 0 auto;
+}
+
+div.container-price h1 {
+    font-size: 2.4em;
+    text-align: center;
+    color: #FFF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+article.boxs-price {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+}
+
+div.box-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 50px;
+    width: 30%;
+    background-color: #fff;
+    border-radius: 12px;
+    min-width: 250px;
+    padding: 40px;
+    min-height: 300px;
+    height: auto; 
+}
+
+
+div.box-price h1 {
+    color: black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+div.box-price label {
+    font-size: 1.6em;
+}
+
+div.box-price ul {
+    list-style-type: disc;
+    margin-left: 20px; 
+    padding-left: 15px; 
+  }
+  
+  div.box-price ul li {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  
+
+div.box-price p {
+    font-size: 15px;
+    
+}
+
+div.box-price div.area-value {
+
+    text-align: center;
+
+}
+
+div.box-price div.area-value h4.underline {
+
+    color: red;
+    text-decoration: line-through;
+
+}
+
+div.box-price div.area-value h4.success {
+
+    color: rgb(69, 219, 0);
+    
+
+}
+
+div.box-price button {
+    
+    padding: 15px 15px;
+    background-color: transparent;
+    border: 1px solid rgb(99, 99, 255);
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.box-price button:hover {
+    
+    background-color: rgb(99, 99, 255);
+    color: #FFF;
+    
+}
+
+.spinner {
+
+    width: 25px;
+    height: 25px;
+    border: 3px solid rgba(17, 0, 255, 0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+    
+
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+
+
+@media (max-width: 768px) {
+    article.boxs-price {
+        flex-direction: column;
+    }
+
+    div.box-price {
+        width: 100%;
+        min-height: auto; 
+    }
+}
