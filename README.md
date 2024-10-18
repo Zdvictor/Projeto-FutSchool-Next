@@ -1,6 +1,6 @@
 Acesse meu Projeto: https://projeto-fut-school-next.vercel.app
 
-By Zdvictor with only HTML, CSS, BOOTSTRAP, JS, TYPESCRIPT , NEXT + Server-side Rendering (SSR), Prisma, NodeMailer
+By Zdvictor with only HTML, CSS, BOOTSTRAP, JS, TYPESCRIPT , NEXT + Server-Side Rendering (SSR), Prisma, NodeMailer
 
 🚀 FutSchool<br />
 FutSchool é uma plataforma inovadora para compra de planos de treinamento de futebol, desenvolvida com Next.js e TypeScript. Este projeto utiliza o lado do servidor do Next.js com Prisma para gerenciar o banco de dados MongoDB, Nodemailer para envio de e-mails, e Toastify para notificações amigáveis ao usuário. Além disso, utiliza React Bootstrap para criar modais interativos. <br />
