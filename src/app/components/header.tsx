@@ -40,7 +40,7 @@ const Header: React.FC = () =>  {
     <Navbar expand="lg" className="bg-warning">
       <Container fluid>
         <Navbar.Brand>
-          <Link href="/" passHref legacyBehavior>
+          <Link href="/">
           <Image src="/futschool.png" width={200} height={65} alt="Logo da FutSchol" />
           <\Link>
         </Navbar.Brand>
