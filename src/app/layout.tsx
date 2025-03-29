@@ -1,27 +1,19 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Roboto } from 'next/font/google';
 import "./globals.css";
-import Header from "./components/header";
-import Footer from "./components/footer";
-import { ToastContainer } from 'react-toastify';
-
+import "./index.css";
 import 'react-toastify/dist/ReactToastify.css';
+import ClientLayout from './ClientLayout';
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const roboto = Roboto({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "FutSchool: A Melhor Escolha para Treinos de Futebol",
-  description: "Na FutSchool, oferecemos os melhores programas de treinamento para aprimorar suas habilidades no futebol. Com profissionais experientes e metodologias inovadoras, ajudamos atletas de todas as idades a alcançar seu máximo potencial. Venha fazer parte da melhor escola de treino e dê o primeiro passo rumo ao sucesso no esporte!",
+  title: "FutSchool - Formando Atletas de Elite",
+  description: "Escola de futebol profissional com metodologia avançada",
 };
 
 export default function RootLayout({
@@ -30,12 +22,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ToastContainer autoClose={2000}/>
-        <Header />
-        {children}
-        <Footer />
+    <html lang="pt-BR" className="scroll-smooth">
+      <body className={roboto.className}>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

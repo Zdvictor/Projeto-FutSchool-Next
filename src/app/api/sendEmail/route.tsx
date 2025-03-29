@@ -70,7 +70,10 @@ export async function POST(req: NextRequest) {
       });
 
       await prisma.notificationEmail.create({
-        data: {email}
+        data: {
+          email,
+          plan: "newsletter"
+        }
       })
       return NextResponse.json({ msg: "Email Enviado com Sucesso" }, { status: 200 });
     } catch (err) {
